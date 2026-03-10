@@ -31,12 +31,11 @@ internal class StandardTicket : Ticket
 
     }
 
-    public override object Clone()
+   public  override double CalculateFinalPrice()
     {
-
-        return new StandardTicket(this.MovieName, this.Price, this.SeatNumber);
-
+        return Price   ;
     }
+
 
 
 }

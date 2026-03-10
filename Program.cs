@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 using System.Transactions;
 
 namespace ConsoleApp7;
@@ -10,13 +11,13 @@ namespace ConsoleApp7;
 
 
 
-        Question.q1();
-        Question.q2();
-        Question.q3();
-        Question.q4();
 
 
         Console.WriteLine("========Cinema Simulation=========");
+
+
+        //// ERROR: Cannot create instance of abstract type 'Ticket'
+        //Ticket ticket = new Ticket();
 
 
 
@@ -28,44 +29,57 @@ namespace ConsoleApp7;
      
 
 
-        Console.WriteLine("====== All Tickets");
+        Console.WriteLine("--- All Tickets (from Cinema.Reporting) ---");
 
 
 
 
 
 
-        StandardTicket standard = new StandardTicket("Avatar 2", 100, "A15");
-        VIPTicket vip = new VIPTicket("Oppenheimer", 150, true);
-        IMAXTicket imax = new IMAXTicket("Interstellar", 120, true);
+
+        Ticket standard = new StandardTicket("Avatar 2", 100, "A15");
+        Ticket vip = new VIPTicket("Oppenheimer", 150, true);
+        Ticket imax = new IMAXTicket("Interstellar", 120, true);
         standard.BookTicket();
         vip.BookTicket();
         imax.BookTicket();
         cinemaa.AddTicket(standard);
         cinemaa.AddTicket(vip);
         cinemaa.AddTicket(imax);
-        cinemaa.PrintAllTickets();
 
-        Console.WriteLine(value: " --Clone Test--");
 
-        var  Clone= vip.Clone();
-        Console.WriteLine("Original VIP Ticket:");
-        vip.PrintTicket();
-        Console.WriteLine("Cloned VIP Ticket:");
-        ((VIPTicket)Clone).MovieName="Tito";
-        ((VIPTicket)Clone).PrintTicket();
-        Console.WriteLine(value: " --After Cancellation  --");
-
-        standard.CancelBooking();
+        cinemaa.GenerateFullReport();
 
 
 
 
 
-        Console.WriteLine("======BookingHelper.PrintAll====");
-        Iprintable[] items = new Iprintable[] { standard, vip, imax };
+        Ticket[] tickets = new Ticket[]
+        {
+            new StandardTicket("Avatar 2", 100, "A15"),
+            new VIPTicket("Oppenheimer", 150, true),
+            new IMAXTicket("Interstellar", 120, true)
+        };
 
-        BookingHelper.PrintAllItem(items);
+        Console.WriteLine("======= Polymorphism in Action =======");
+
+        foreach (var t in tickets) {
+
+            t.BookTicket();
+            Console.WriteLine($"Ticket Type: {t.GetType().Name} | Movie: {t.MovieName} |  Final Price: {t.CalculateFinalPrice()} EGP");
+                
+
+        }
+        Console.WriteLine("--- Extension Method: Receipt ---");
+
+        TicketExtensions.PrintTicketDetails(standard);
+
+        Console.WriteLine("--- Extension Method: Total Revenue ---");
+
+        List<Ticket> ticketList = new List<Ticket> { standard, vip, imax };
+        double totalRevenue = TicketExtensions.TotalRevenue(ticketList);
+        Console.WriteLine($"Total Revenue from Tickets: {totalRevenue} EGP");
+
 
 
 

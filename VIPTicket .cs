@@ -3,8 +3,9 @@
 namespace ConsoleApp7;
 
 
-public class VIPTicket : Ticket
+public class VIPTicket : Ticket 
 {
+
     public bool LoungeAccess { get; set; }
     public decimal ServiceFee { get; set; } = 50;
 
@@ -29,8 +30,8 @@ public class VIPTicket : Ticket
 
         );
     }
-    public override object Clone()
-    {
-        return new VIPTicket(this.MovieName, this.Price, this.LoungeAccess);
-    }
+
+    public override double CalculateFinalPrice() => Price + 50; 
+
+   
 }

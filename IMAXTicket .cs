@@ -27,8 +27,6 @@ public class IMAXTicket : Ticket
             );
     }
 
-    public override object Clone()
-    {
-        return new IMAXTicket(this.MovieName, this.Price, this.Is3D);
-    }
+
+    public override double CalculateFinalPrice() => Price * 1.2;
 }

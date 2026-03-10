@@ -1,8 +1,9 @@
 ﻿using System.Net.Sockets;
+using System.Reflection.Emit;
 
 namespace ConsoleApp7
 {
-    public class Ticket : ICloneable , Iprintable
+    public abstract class Ticket :   Iprintable,IBookable
     {
 
         public  string MovieName
@@ -141,14 +142,10 @@ namespace ConsoleApp7
             ticket.PrintTicket();
         }
 
-        public virtual object Clone()
-        {
-            
-            Ticket clonedTicket = new Ticket(this.MovieName, this.Price);
+      
+
+        public abstract double CalculateFinalPrice();
 
 
-
-            return clonedTicket;
-        }
     }
 }

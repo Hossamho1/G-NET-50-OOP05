@@ -1,22 +1,31 @@
-﻿
-namespace ConsoleApp7;
+﻿namespace ConsoleApp7;
 
-internal class Cinemaa
+internal partial class Cinemaa
 {
     public string CinemaaName { get; set; } = default!;
     public Projector Projector { get; set; } = default!;
-    private Ticket[] tickets = new Ticket[20];
-    public Cinemaa(string CinemaaName , Projector Projector)
+
+    private Iprintable[] tickets = new Iprintable[20];
+
+    public Cinemaa(string CinemaaName, Projector Projector)
     {
-        this.CinemaaName= CinemaaName;
-        Projector projector = new Projector();
+        this.CinemaaName = CinemaaName;
+        this.Projector = Projector;
+    }
+    public void GenerateFullReport()
+    {
+        Report();
     }
 
-    public bool AddTicket(Ticket t)
-    {
-        if (t == null)
-            return false;
+    partial void Report();
+}
 
+
+internal partial class Cinemaa
+{
+    public bool AddTicket(Iprintable t)
+    {
+        if (t == null) return false;
 
         for (int i = 0; i < tickets.Length; i++)
         {
@@ -29,17 +38,15 @@ internal class Cinemaa
         return false;
     }
 
-
-    public Ticket PrintAllTickets()
+    partial void Report()
     {
-
+        Console.WriteLine($"--- Tickets for {CinemaaName} ---");
         foreach (var ticket in tickets)
         {
             if (ticket != null)
             {
-                ticket.PrintTicket();            }
+                ticket.PrintTicket();
+            }
         }
-        return null!;
     }
-
 }
